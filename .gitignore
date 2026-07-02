@@ -35,5 +35,4 @@ build/
 
 application-local.properties
 .env
-
 *.log
