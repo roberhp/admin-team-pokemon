@@ -155,7 +155,7 @@ public class CapturePokemonServiceTest {
     @Test
     void capturePokemon_shouldThrowException_whenTrainerDoesNotExist(){
         // Arrange
-        Long trainerId = 0L;
+        Long trainerId = 2L;
 
         CapturePokemonRequest request = new CapturePokemonRequest();
         request.setPokedexNumber(NUM_POKEDEX);
@@ -164,8 +164,6 @@ public class CapturePokemonServiceTest {
         TrainerEntity trainer = new TrainerEntity();
         trainer.setTrainerId(trainerId);
 
-        when(trainerRepository.findById(trainerId))
-                .thenReturn(Optional.of(trainer));
 
         when(pokemonClient.findPokemonByPokedexNumber(NUM_POKEDEX))
                 .thenReturn(new PokemonInfo(
@@ -173,12 +171,6 @@ public class CapturePokemonServiceTest {
                         "pikachu",
                         "https://url"));
 
-        when(capturePokemonRepository
-                .existsByTrainerTrainerIdAndNicknameAndPokedexNumber(
-                        trainerId,
-                        NICKNAME,
-                        NUM_POKEDEX))
-                .thenReturn(true);
 
         // Act + Assert
         assertThrows(
