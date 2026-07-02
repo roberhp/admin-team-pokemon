@@ -155,7 +155,7 @@ public class CapturePokemonServiceTest {
     @Test
     void capturePokemon_shouldThrowException_whenTrainerDoesNotExist(){
         // Arrange
-        Long trainerId = 1L;
+        Long trainerId = 0L;
 
         CapturePokemonRequest request = new CapturePokemonRequest();
         request.setPokedexNumber(NUM_POKEDEX);
