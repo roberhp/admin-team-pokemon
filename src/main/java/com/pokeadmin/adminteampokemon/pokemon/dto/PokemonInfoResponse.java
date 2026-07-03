@@ -16,4 +16,5 @@ public class PokemonInfoResponse {
         this.pokedexNumber = pokemon.getPokedexNumber();
         this.nickname = pokemon.getNickname();
     }
+
 }

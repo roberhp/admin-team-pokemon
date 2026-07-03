@@ -16,6 +16,21 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+
+    container_name: admin-team-pokemon-redis
+
+    ports:
+      - "6379:6379"
+
+    volumes:
+      - redis_data:/data
+
+    restart: unless-stopped
+
   pokemon-api:
     build:
       context: .
@@ -25,6 +40,7 @@ services:
 
     depends_on:
       - postgres
+      - redis
 
     environment:
       SPRING_PROFILES_ACTIVE: docker
@@ -37,3 +53,4 @@ services:
 
 volumes:
   postgres_data:
+  redis_data:
