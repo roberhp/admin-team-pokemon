@@ -44,6 +44,14 @@ services:
 
     environment:
       SPRING_PROFILES_ACTIVE: docker
+
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/pokemondb
+      SPRING_DATASOURCE_USERNAME: pokemon_user
+      SPRING_DATASOURCE_PASSWORD: pokemon_password
+
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+
       JWT_SECRET: MiSuperSecretJWTDeMasDe32Caracteres
 
     ports:

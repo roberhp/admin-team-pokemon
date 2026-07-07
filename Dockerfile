@@ -12,11 +12,12 @@ COPY pom.xml .
 RUN mvn dependency:go-offline
 
 # Ahora copiamos el resto del proyecto
-COPY src ./src
+COPY . .
 
 # Compilamos la aplicación
-RUN mvn clean package -DskipTests
+RUN chmod +x mvnw
 
+RUN ./mvnw clean package -DskipTests
 
 # ===============================
 # Stage 2 - Runtime
