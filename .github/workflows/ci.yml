@@ -8,6 +8,9 @@ on:
     branches:
       - main
 
+env:
+  IMAGE_NAME: admin-team-pokemon
+
 permissions:
   contents: read
   packages: write
@@ -48,10 +51,36 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker image
-        run: docker build -t ghcr.io/roberhp/admin-team-pokemon:latest .
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest .
             
       - name: Push Docker image
         if: github.event_name == 'push'
-        run: docker push ghcr.io/roberhp/admin-team-pokemon:latest
+        run: docker push ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: Configure AWS credentials
+        if: github.event_name == 'push'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        if: github.event_name == 'push'
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Tag image for Amazon ECR
+        if: github.event_name == 'push'
+        run: |
+          docker tag \
+            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest \
+            ${{ secrets.AWS_ECR_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: Push image to Amazon ECR
+        if: github.event_name == 'push'
+        run: |
+          docker push \
+            ${{ secrets.AWS_ECR_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
 
