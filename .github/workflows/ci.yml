@@ -52,6 +52,6 @@ jobs:
             
       - name: Push Docker image
         if: github.event_name == 'push'
-        run: docker push ghcr.io/roberhp/admin-team-pokemon:latest .
+        run: docker push ghcr.io/roberhp/admin-team-pokemon:latest
 
 
