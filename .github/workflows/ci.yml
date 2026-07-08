@@ -82,5 +82,3 @@ jobs:
         run: |
           docker push \
             ${{ secrets.AWS_ECR_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-
-
